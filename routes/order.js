@@ -1,21 +1,21 @@
+const Order = require('../controllers/order')
+
+console.log(Order.create)
+
 const router = require('koa-router')()
 
 router.prefix('/order')
 
-router.get('/list', function (ctx, next) {
-  ctx.body = 'this is a users response!'
-})
+router.get('/list/valid', Order.getList)
 
-router.get('/create', function (ctx, next) {
-  ctx.body = 'this is a users/bar response'
-})
+router.get('/list/close', Order.getCloseList)
 
-router.get('/stop', function (ctx, next) {
-  ctx.body = 'this is a users/bar response'
-})
+router.post('/create', Order.create)
 
-router.get('/edit', function (ctx, next) {
-  ctx.body = 'this is a users/bar response'
-})
+router.get('/detail', Order.getDetail)
+
+router.get('/close', Order.close)
+
+router.post('/edit', Order.edit)
 
 module.exports = router

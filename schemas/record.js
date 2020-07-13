@@ -1,30 +1,19 @@
 const { ORDER_STATE, PAY_ID } = require('../constant')
+
+
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const ObjectId = Schema.Types.ObjectId
 
-const OrderSchema = new Schema({
-  bussinessName: String,
-  description: String,
-  state: {
-    type: Number,
-    default: ORDER_STATE.VALID,
-  },
-  user: {
+const RecordSchema = new Schema({
+  order: {
     type: ObjectId,
     ref: 'User',
   },
-  payId: {
-    type: String,
-    default: PAY_ID.WECHAT_WALLET,
+  amount: {
+    type: Number,
+    default: 0,
   },
-  remarks: String,
-  // records: [
-  //   {
-  //     type: ObjectId,
-  //     ref: 'Record',
-  //   }
-  // ],
   meta: {
 		createAt: {
 			type: Date,
@@ -37,7 +26,7 @@ const OrderSchema = new Schema({
 	}
 })
 
-OrderSchema.pre('save',function(next){
+RecordSchema.pre('save',function(next){
 	if (this.isNew) {
 		this.meta.createAt = this.meta.updateAt = Date.now()
 	}else{
@@ -46,15 +35,17 @@ OrderSchema.pre('save',function(next){
 	next()
 })
 
-OrderSchema.statics = {
-	fetch:function(){
+RecordSchema.statics = {
+	fetch:function(cb){
 		return this
 			.find({})
 			.sort({'meta.updateAt':-1})
+			.exec(cb)
 	},
-	findById:function(id){
+	findById:function(id, cb){
 		return this
 			.findOne({ _id:id })
+			.exec(cb)
 	},
 }
-module.exports = OrderSchema
+module.exports = RecordSchema

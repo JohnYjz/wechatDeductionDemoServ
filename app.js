@@ -4,6 +4,13 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const env = process.env.NODE_ENV || 'development'
+const mongoose = require('mongoose')
+let dbUrl = 'mongodb://127.0.0.1:27017/deduction'
+if (env === 'development') {
+	dbUrl = 'mongodb://localhost/deduction'
+}
+mongoose.connect(dbUrl)
 
 const user = require('./routes/user')
 const order = require('./routes/order')

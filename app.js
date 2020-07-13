@@ -14,6 +14,7 @@ mongoose.connect(dbUrl)
 
 const user = require('./routes/user')
 const order = require('./routes/order')
+const record = require('./routes/record')
 
 // error handler
 onerror(app)
@@ -37,6 +38,7 @@ app.use(async (ctx, next) => {
 // routes
 app.use(user.routes(), user.allowedMethods())
 app.use(order.routes(), order.allowedMethods())
+app.use(record.routes(), record.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

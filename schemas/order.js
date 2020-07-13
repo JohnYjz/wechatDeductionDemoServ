@@ -19,12 +19,12 @@ const OrderSchema = new Schema({
     default: PAY_ID.WECHAT_WALLET,
   },
   remarks: String,
-  // records: [
-  //   {
-  //     type: ObjectId,
-  //     ref: 'Record',
-  //   }
-  // ],
+  records: [
+    {
+      type: ObjectId,
+      ref: 'Record',
+    }
+  ],
   meta: {
 		createAt: {
 			type: Date,

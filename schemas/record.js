@@ -6,7 +6,7 @@ const ObjectId = Schema.Types.ObjectId
 const RecordSchema = new Schema({
   order: {
     type: ObjectId,
-    ref: 'User',
+    ref: 'Order',
   },
   amount: {
     type: Number,

@@ -1,17 +1,18 @@
 const Order = require('../models/Order')
 const User = require('../models/User')
 const { ORDER_STATE } = require('../constant')
-const { SuccessModel, ErrorModel } = require('../models/resModel')
+const { SuccessModel } = require('../models/resModel')
+const xss = require('xss')
 
 
 exports.getList = async function(ctx) {
-  const { userid } = ctx.header
+  const userid = await ctx.cookies.get('userid')
   const orders = await Order.find({ user: userid, state: ORDER_STATE.VALID })
   ctx.body =  new SuccessModel(orders)
 }
 
 exports.getCloseList = async function(ctx) {
-  const { userid } = ctx.header
+  const userid = ctx.cookies.get('userid')
   const orders = await Order.find({ user: userid, state: ORDER_STATE.CLOSE })
   ctx.body =  new SuccessModel(orders)
 }
@@ -23,10 +24,18 @@ exports.getDetail = async function(ctx) {
 }
 
 exports.create = async function(ctx) {
-  const data = ctx.request.body
-  const { userid } = ctx.header
+  const {
+    payId,
+    bussinessName,
+    description,
+    remarks,
+  } = ctx.request.body
+  const userid = ctx.cookies.get('userid')
   const _orderObj = new Order({
-    ...data,
+    payId,
+    bussinessName: xss(bussinessName),
+    description: xss(description),
+    remarks: xss(remarks),
     user: userid
   })
   const orderObj = await _orderObj.save()

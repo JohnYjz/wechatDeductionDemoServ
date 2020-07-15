@@ -4,6 +4,9 @@ const json = require('koa-json')
 const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
+const helmet = require('koa-helmet') // 网络安全
+const Middleware = require('./middlewares')
+
 const env = process.env.NODE_ENV || 'development'
 const mongoose = require('mongoose')
 let dbUrl = 'mongodb://127.0.0.1:27017/deduction'
@@ -20,6 +23,7 @@ const record = require('./routes/record')
 onerror(app)
 
 // middlewares
+app.use(helmet())
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
 }))
@@ -34,6 +38,8 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
+
+app.use(Middleware.checkReferr)
 
 // routes
 app.use(user.routes(), user.allowedMethods())

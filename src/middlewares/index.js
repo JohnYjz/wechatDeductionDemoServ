@@ -1,6 +1,6 @@
 const User = require('../models/User')
 
-exports.checkReferr = async function (ctx, next) {
+exports.checkReferer = async function (ctx, next) {
   if (ctx.header.referer === 'http://localhost:8080/') {
     await next()
   } else {

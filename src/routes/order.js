@@ -1,8 +1,6 @@
 const Order = require('../controllers/order')
 const MiddleWare = require('../middlewares')
 
-console.log(Order.create)
-
 const router = require('koa-router')()
 
 router.prefix('/order')

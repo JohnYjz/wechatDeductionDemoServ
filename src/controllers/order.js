@@ -45,7 +45,7 @@ exports.create = async function(ctx) {
   ctx.body = new SuccessModel('创建成功')
 }
 
-exports.edit = async function(ctx, next) {
+exports.edit = async function(ctx) {
   const { id, payId } = ctx.request.body
   const orderObj = await Order.findById(id)
   orderObj.payId = payId
@@ -53,7 +53,7 @@ exports.edit = async function(ctx, next) {
   ctx.body = new SuccessModel(res)
 }
 
-exports.close = async function(ctx, next) {
+exports.close = async function(ctx) {
   const { id } = ctx.query
   const orderObj = await Order.findById(id)
   orderObj.state = ORDER_STATE.CLOSE

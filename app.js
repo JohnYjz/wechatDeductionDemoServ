@@ -5,7 +5,7 @@ const onerror = require('koa-onerror')
 const bodyparser = require('koa-bodyparser')
 const logger = require('koa-logger')
 const helmet = require('koa-helmet') // 网络安全
-const Middleware = require('./middlewares')
+const Middleware = require('./src/middlewares')
 
 const env = process.env.NODE_ENV || 'development'
 const mongoose = require('mongoose')
@@ -15,9 +15,9 @@ if (env === 'development') {
 }
 mongoose.connect(dbUrl)
 
-const user = require('./routes/user')
-const order = require('./routes/order')
-const record = require('./routes/record')
+const user = require('./src/routes/user')
+const order = require('./src/routes/order')
+const record = require('./src/routes/record')
 
 // error handler
 onerror(app)

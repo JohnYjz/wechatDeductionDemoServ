@@ -2,15 +2,15 @@ const User = require('../models/User')
 const { SuccessModel } = require('../models/resModel')
 
 function setCookie (ctx, val) {
-    const msgCookieOption = {
-      path:'/',
-      maxAge: 24 * 60 * 60 * 1000, 
-      httpOnly: true,
-    };
-    ctx.cookies.set('userid', val, msgCookieOption);
+  const msgCookieOption = {
+    path:'/',
+    maxAge: 24 * 60 * 60 * 1000, 
+    httpOnly: true,
+  }
+  ctx.cookies.set('userid', val, msgCookieOption)
 }
 
-exports.getInfo = async function(ctx, next) {
+exports.getInfo = async function(ctx) {
   // 这是一个mock方法，如果没登录则mock一份user信息，省略掉登录逻辑
   const { userid } = ctx.header
   if (userid) {
